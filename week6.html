@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI計算ツール</title>
+</head>
+
+<body>
+    <h1>BMI計算ツール</h1>
+
+    <div>
+        <label for="height">身長（cm）</label>
+        <input type="number" id="height" placeholder="例：170">
+    </div>
+
+    <div>
+        <label for="weight">体重（kg）</label>
+        <input type="number" id="weight" placeholder="例：60">
+    </div>
+
+    <button id="calculate">計算する</button>
+
+    <p id="result"></p>
+
+    <script>
+        const heightInput = document.getElementById("height");
+        const weightInput = document.getElementById("weight");
+        const calculateButton = document.getElementById("calculate");
+        const result = document.getElementById("result");
+
+        calculateButton.addEventListener("click", function() {
+            const height = Number(heightInput.value);
+            const weight = Number(weightInput.value);
+
+            if (height <= 0 || weight <= 0) {
+                result.textContent = "身長と体重を0より大きい数字で入力してください。";
+                return;
+            }
+
+            const heightInMeter = height / 100;
+            const bmi = weight / (heightInMeter * heightInMeter);
+
+            let message;
+
+            if (bmi < 18.5) {
+                message = "痩せ型";
+            } else if (bmi < 25) {
+                message = "普通";
+            } else {
+                message = "肥満";
+            }
+
+            result.textContent = "BMI：" + bmi.toFixed(1) + "　判定：" + message;
+        });
+    </script>
+</body>
+</html>
