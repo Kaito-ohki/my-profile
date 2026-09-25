@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シンプルなTODOリスト</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 20px;
+        }
+
+        .input-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+        flex: 1;
+        padding: 8px;
+        font-size: 16px;
+        }
+
+        button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        }
+
+        .todo-list {
+        list-style: none;
+        padding: 0;
+        }
+
+        .todo-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        }
+
+        /* 完了時の打ち消し線 styles */
+        .todo-text.completed {
+        text-decoration: line-through;
+        color: #888;
+        }
+
+        .action-buttons {
+        display: flex;
+        gap: 5px;
+        }
+    </style>
+    </head>
+    <body>
+
+    <h1>TODOリスト</h1>
+
+    <div class="input-container">
+        <input type="text" id="todo-input" placeholder="新しいタスクを入力...">
+        <button id="add-btn">追加</button>
+    </div>
+
+    <ul id="todo-list" class="todo-list"></ul>
+
+    <script>
+        const todoInput = document.querySelector('#todo-input');
+        const addBtn = document.querySelector('#add-btn');
+        const todoList = document.querySelector('#todo-list');
+
+        // タスク追加処理
+        function addTodo() {
+        const taskText = todoInput.value.trim();
+
+        // 空文字の場合は何も追加しない
+        if (taskText === '') return;
+
+        // リストアイテム (li) の生成
+        const li = document.createElement('li');
+        li.classList.add('todo-item');
+
+        // タスクテキスト用 span
+        const span = document.createElement('span');
+        span.classList.add('todo-text');
+        span.textContent = taskText;
+
+        // ボタンコンテナ
+        const btnContainer = document.createElement('div');
+        btnContainer.classList.add('action-buttons');
+
+        // 「完了」ボタン
+        const completeBtn = document.createElement('button');
+        completeBtn.textContent = '完了';
+        completeBtn.addEventListener('click', () => {
+            span.classList.toggle('completed');
+        });
+
+        // 「削除」ボタン（発展・任意機能）
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '削除';
+        deleteBtn.addEventListener('click', () => {
+            // UX設計: 間違えて押した際の誤操作を防ぐため、確認ダイアログ（confirm）を表示する仕様に設定
+            if (confirm('このタスクを削除してもよろしいですか？')) {
+            li.remove();
+            }
+        });
+
+        // 要素の組み立て
+        btnContainer.appendChild(completeBtn);
+        btnContainer.appendChild(deleteBtn);
+        li.appendChild(span);
+        li.appendChild(btnContainer);
+
+        // リストに追加
+        todoList.appendChild(li);
+
+        // 入力欄をクリア
+        todoInput.value = '';
+        }
+
+        // 「追加」ボタンクリック時
+        addBtn.addEventListener('click', addTodo);
+
+        // Enterキー入力時にも追加できるように設定
+        todoInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            addTodo();
+        }
+        });
+    </script>
+    </body>
+    </html>
