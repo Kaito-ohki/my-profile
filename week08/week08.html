@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>チームメンバー一覧</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-5xl mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-8">チームメンバー一覧</h1>
+        <!-- カードを表示する場所 -->
+        <div id="member-list"class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+    </div>
+
+        <script>
+        // メンバーのデータ
+        const members = [
+            {
+            name: "田中太郎",
+            role: "エンジニア",
+            comment: "Webサイトの開発を担当しています。",
+            },
+            {
+            name: "佐藤花子",
+            role: "デザイナー",
+            comment: "使いやすいデザインを考えています。",
+            },
+            {
+            name: "鈴木一郎",
+            role: "エンジニア",
+            comment: "フロントエンドの開発が得意です。",
+            },
+            {
+            name: "高橋美咲",
+            role: "ディレクター",
+            comment: "チーム全体の進行を担当しています。",
+            },
+            {
+            name: "伊藤健太",
+            role: "エンジニア",
+            comment: "新しい技術を勉強しています。",
+            },
+        ];
+
+        // カードを表示する場所を取得
+        const memberList = document.getElementById("member-list");
+
+        // メンバーを1人ずつ処理する
+        members.forEach((member) => {
+            const card = document.createElement("div");
+
+            card.className = "bg-white rounded-lg shadow p-6";
+
+            card.innerHTML = `
+            <h2 class="text-xl font-bold mb-2">${member.name}</h2>
+            <p class="text-blue-600 font-semibold mb-3">${member.role}</p>
+            <p class="text-gray-600">${member.comment}</p>
+            `;
+
+            memberList.appendChild(card);
+        });
+        </script>
+    </body>
+    </html>
