@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>GitHubユーザー情報</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="max-w-md mx-auto p-6">
+      <div class="bg-white rounded-lg shadow p-6">
+        <h1 class="text-2xl font-bold mb-6">
+          GitHubユーザー情報
+        </h1>
+
+        <input
+          id="username"
+          type="text"
+          placeholder="GitHubユーザー名"
+          class="w-full border rounded px-3 py-2 mb-4"
+        />
+
+        <button
+          id="search-button"
+          class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+        >
+          検索
+        </button>
+
+        <p id="message" class="mt-4"></p>
+
+        <div id="user-info" class="mt-6"></div>
+      </div>
+    </div>
+
+    <script>
+      const username = document.getElementById("username");
+      const searchButton = document.getElementById("search-button");
+      const message = document.getElementById("message");
+      const userInfo = document.getElementById("user-info");
+
+      searchButton.addEventListener("click", async function () {
+        const name = username.value;
+
+        message.textContent = "";
+        userInfo.innerHTML = "";
+
+        try {
+          const response = await fetch(
+            `https://api.github.com/users/${name}`
+          );
+
+          if (!response.ok) {
+            message.textContent =
+              "ユーザーが見つかりませんでした";
+            return;
+          }
+
+          const data = await response.json();
+
+          console.log(data);
+
+          userInfo.innerHTML = `
+            <div class="text-center">
+              <img
+                src="${data.avatar_url}"
+                alt="${data.name}"
+                class="w-32 h-32 rounded-full mx-auto mb-4"
+              />
+
+              <h2 class="text-xl font-bold mb-2">
+                ${data.name}
+              </h2>
+
+              <p class="text-gray-600 mb-3">
+                ${data.bio || "自己紹介はありません"}
+              </p>
+
+              <p class="mb-2">
+                フォロワー数：${data.followers}人
+              </p>
+            </div>
+          `;
+        } catch (error) {
+          message.textContent =
+            "情報を取得できませんでした";
+        }
+      });
+    </script>
+  </body>
+</html>
