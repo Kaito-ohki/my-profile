@@ -1,0 +1,161 @@
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>ユーザー登録フォーム</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body class="bg-gray-100">
+        <div class="max-w-md mx-auto p-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h1 class="text-2xl font-bold mb-6">ユーザー登録</h1>
+
+            <form id="register-form" novalidate>
+            <!-- 名前 -->
+            <div class="mb-4">
+                <label for="name" class="block font-semibold mb-2">
+                名前
+                </label>
+
+                <input
+                id="name"
+                type="text"
+                required
+                class="w-full border rounded px-3 py-2"
+                placeholder="名前を入力してください"
+                />
+            </div>
+
+            <!-- メールアドレス -->
+            <div class="mb-4">
+                <label for="email" class="block font-semibold mb-2">
+                メールアドレス
+                </label>
+
+                <input
+                id="email"
+                type="email"
+                required
+                class="w-full border rounded px-3 py-2"
+                placeholder="example@example.com"
+                />
+            </div>
+
+            <!-- パスワード -->
+            <div class="mb-4">
+                <label for="password" class="block font-semibold mb-2">
+                パスワード
+                </label>
+
+                <input
+                id="password"
+                type="password"
+                required
+                class="w-full border rounded px-3 py-2"
+                placeholder="8文字以上"
+                />
+            </div>
+
+            <!-- 利用規約 -->
+            <div class="mb-6">
+                <label class="flex items-center gap-2">
+                <input
+                    id="terms"
+                    type="checkbox"
+                    required
+                />
+
+                <span>利用規約に同意する</span>
+                </label>
+            </div>
+
+            <!-- メッセージ -->
+            <p id="error-message" class="text-red-500 mb-4"></p>
+
+            <p id="success-message" class="text-green-600 mb-4"></p>
+
+            <!-- ボタン -->
+            <button
+                type="submit"
+                class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            >
+                登録する
+            </button>
+            </form>
+        </div>
+        </div>
+
+        <script>
+        // フォームを取得
+        const form = document.getElementById("register-form");
+
+        // 入力欄を取得
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const terms = document.getElementById("terms");
+
+        // メッセージを表示する場所
+        const errorMessage = document.getElementById("error-message");
+        const successMessage = document.getElementById("success-message");
+
+        // フォームが送信されたとき
+        form.addEventListener("submit", function (event) {
+            // ページが更新されるのを止める
+            event.preventDefault();
+
+            // 前のメッセージを消す
+            errorMessage.textContent = "";
+            successMessage.textContent = "";
+
+            // 名前の確認
+            if (name.value === "") {
+            errorMessage.textContent = "名前を入力してください";
+            return;
+            }
+
+            // メールアドレスの確認
+            if (email.value === "") {
+            errorMessage.textContent =
+                "メールアドレスを入力してください";
+            return;
+            }
+
+            // メールアドレスに@があるか確認
+            if (!email.value.includes("@")) {
+            errorMessage.textContent =
+                "正しいメールアドレスを入力してください";
+            return;
+            }
+
+            // パスワードの確認
+            if (password.value === "") {
+            errorMessage.textContent =
+                "パスワードを入力してください";
+            return;
+            }
+
+            // パスワードが8文字以上か確認
+            if (password.value.length < 8) {
+            errorMessage.textContent =
+                "パスワードは8文字以上で入力してください";
+            return;
+            }
+
+            // 利用規約の確認
+            if (!terms.checked) {
+            errorMessage.textContent =
+                "利用規約に同意してください";
+            return;
+            }
+
+            // すべて問題なければ成功
+            successMessage.textContent = "登録完了！";
+        });
+        </script>
+    </body>
+    </html>
